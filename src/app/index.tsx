@@ -102,13 +102,15 @@
 
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import SignIn from '@/views/SignIn'; // Pulls cleanly from your views folder
+// import SignIn from '@/views/SignIn'; // Pulls cleanly from your views folder
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Redirect } from 'expo-router';
 
 export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      <SignIn />
+      {/* <SignIn /> */}
+      <Redirect href="/sign-in" />
     </SafeAreaView>
   )
 }
