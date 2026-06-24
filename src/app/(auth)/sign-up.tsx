@@ -8,13 +8,11 @@ import colors from '@/utils/colors'
 import { useRouter } from 'expo-router'
 import { FC, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import * as yup from 'yup'
-import axios from "axios"
 import { newUserSchema, yupValidate } from '@/utils/validation'
 import { runAxiosAsync } from '@/api/axiosAsync'
 import { showMessage } from 'react-native-flash-message'
 import client from '@/api/client'
-import { SignInRes } from './sign-in'
+import useAuth from '@/hooks/useAuth'
 
 interface Props {
 
@@ -24,6 +22,7 @@ const SignUp: FC<Props> = (props) => {
     const [userInfo, setUserInfo] = useState({name: "", email: "", password: ""})
     const {name, email, password} = userInfo
     const [busy, setBusy] = useState(false)
+    const {signIn} = useAuth()
 
     const handleChange = (name: string) => (text: string) => {
           setUserInfo({...userInfo, [name]: text})
@@ -37,8 +36,8 @@ const SignUp: FC<Props> = (props) => {
 
       const res = await runAxiosAsync<{message: string}>(client.post("/auth/sign-up", values))
       if(res?.message) {
-       const signInRes = await runAxiosAsync<SignInRes>(client.post("/auth/sign-in", values))
-        console.log(signInRes)
+       showMessage({message: res.message, type: "success"})
+       signIn(values!)
       }
       setBusy(false)
     }

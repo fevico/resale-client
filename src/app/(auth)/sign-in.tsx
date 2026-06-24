@@ -8,47 +8,33 @@ import colors from '@/utils/colors'
 import React, { FC, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useRouter } from 'expo-router' 
-import { newUserSchema, signInSchema, yupValidate } from '@/utils/validation'
+import { signInSchema, yupValidate } from '@/utils/validation'
 import { showMessage } from 'react-native-flash-message'
 import { runAxiosAsync } from '@/api/axiosAsync'
-import axios from 'axios'
 import client from '@/api/client'
+import { useDispatch } from 'react-redux'
+import { updateAuthState } from '@/store/auth'
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import useAuth from '@/hooks/useAuth'
 
 interface Props {
 
 }
 
-export interface SignInRes {
-  profile: {
-    id: string;
-    email: string
-    name: string;
-    verified: boolean;
-    avatar?: string;
-  },
-  tokens: {
-    refresh: string
-    access: string
-  }
-}
-
 const SignIn: FC<Props> = (props) => {
     const router = useRouter()
         const [userInfo, setUserInfo] = useState({email: "", password: ""})
-        const [busy, setBusy] = useState(false)
+        
+        const {signIn} = useAuth()
 
         const handleSubmit = async() => {
-          setBusy(true)
           const {values, error} = await yupValidate(signInSchema, userInfo)
     
           if(error) return showMessage({message: error, type: "danger"})
-    
-          const res = await runAxiosAsync<SignInRes>(client.post("/auth/sign-in", values))
-          if(res){
-            // store the token
-            console.log(res)
-          }
-          setBusy(false)
+            
+           if(values) signIn(values)
+
+          // router.replace("/home");
         }
 
      const handleChange = (name: string) => (text: string) => {
@@ -74,12 +60,12 @@ const SignIn: FC<Props> = (props) => {
         value={password}
         onChangeText={handleChange("password")} 
         />
-        <AppButton active={!busy} title='Sign in' onPress={handleSubmit}/>
+        <AppButton title='Sign in' onPress={handleSubmit}/>
 
         <FormDivider/>
 
         <FormNavigator 
-        onLeftPress={() => router.push("/forget-password")} 
+        onLeftPress={() => router.push("/forgot-password")} 
         onRightPress={() => router.push("/sign-up")} 
         leftTitle='Forget password' 
         rightTitle='Sign Up'/>

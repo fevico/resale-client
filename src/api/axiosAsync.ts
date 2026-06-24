@@ -18,7 +18,7 @@ export const runAxiosAsync = async<T>(promise: Promise<AxiosResponse<T>>): Promi
           } catch (error) {
             let message = (error as any).message
             if(error instanceof AxiosError){
-              const response = error.response?.data
+              const response = error.response
               if(response){
                 message = response.data.message
               }
