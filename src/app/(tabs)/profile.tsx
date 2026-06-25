@@ -6,16 +6,16 @@ interface Props {
 
 }
 
-const Home: FC<Props> = (props) => {
+const Profile: FC<Props> = (props) => {
     const router = useRouter()
   return (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
-      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Your Matches Feed</Text>
+      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Your Profile screen</Text>
     </View>
   )
 }
 
-export default Home
+export default Profile
 
 const styles = StyleSheet.create({
   container: {

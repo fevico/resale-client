@@ -14,7 +14,7 @@ const LoadingSpinner: FC<Props> = ({visible}) => {
     <Modal animationType="fade" transparent>
         <View style={styles.container}>
               <LottieView source={require('../../assets/loading.json')} 
-              autoPlay loop style={{flex: 1, transform: [{scale: 0.2}]}} 
+              autoPlay loop style={{flex: 1, transform: [{scale: 0.2}]}}
               />
         </View>
     </Modal>
