@@ -13,70 +13,70 @@ import useAuth from '@/hooks/useAuth';
 export default function HomeScreen() {
 
   const {loggedIn, authState} = useAuth()
-  console.log(authState)
+  // console.log(authState) 
 
-  const dispatch = useDispatch()
-  console.log("auth state", authState.profile)
-  const [isCheckingToken, setIsCheckingToken] = useState(true);
+  // const dispatch = useDispatch()
+  // console.log("auth state", authState.profile)
+  // const [isCheckingToken, setIsCheckingToken] = useState(true);
 
-  const fetchAuthState = async () => {
-   const token = await AsyncStorage.getItem("access-token")
-   console.log("access", token)
-   if(token){
-    dispatch(updateAuthState({
-        pending: true,
-        profile: null
-      }))
-     const res = await runAxiosAsync<{profile: Profile}>(client.get("/auth/profile", {
-       headers: {
-         Authorization: "Bearer " + token, 
-       }
-     }))
+  // const fetchAuthState = async () => {
+  //  const token = await AsyncStorage.getItem("access-token")
+  //  console.log("access", token)
+  //  if(token){
+  //   dispatch(updateAuthState({
+  //       pending: true,
+  //       profile: null
+  //     }))
+  //    const res = await runAxiosAsync<{profile: Profile}>(client.get("/auth/profile", {
+  //      headers: {
+  //        Authorization: "Bearer " + token, 
+  //      }
+  //    }))
 
-     console.log("profile", res)
+  //    console.log("profile", res)
 
-     if(res){
-      dispatch(updateAuthState({
-        pending: false,
-        profile: res.profile
-      }))
-     }else {
-      dispatch(updateAuthState({
-        pending: false,
-        profile: null
-      }))
-     }
-     setIsCheckingToken(false);
-   }
-  }
+  //    if(res){
+  //     dispatch(updateAuthState({
+  //       pending: false,
+  //       profile: res.profile
+  //     }))
+  //    }else {
+  //     dispatch(updateAuthState({
+  //       pending: false,
+  //       profile: null
+  //     }))
+  //    }
+  //    setIsCheckingToken(false);
+  //  }
+  // }
 
-  useEffect(() => {
-    fetchAuthState()
-  }, [])
+  // useEffect(() => {
+  //   fetchAuthState()
+  // }, [])
 
-  console.log(loggedIn)
+  // console.log(loggedIn)
 
-  if (isCheckingToken || authState.pending) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <LoadingSpinner visible={true} />
-      </SafeAreaView>
-    );
-  }
+  // if (isCheckingToken || authState.pending) {
+  //   return (
+  //     <SafeAreaView style={styles.container}>
+  //       <LoadingSpinner visible={true} />
+  //     </SafeAreaView>
+  //   );
+  // }
 
-  if (!loggedIn) {
-    return <Redirect href="/sign-in" />;
-  }
+  // if (!loggedIn) {
+  //   return <Redirect href="/sign-in" />;
+  // }
 
-  return <Redirect href="/home" />;
+  // return <Redirect href="/home" />;
 
-  // return (
-  //   <SafeAreaView style={styles.container}>
-  //     {/* <SignIn /> */}
-  //     <LoadingSpinner visible={authState.pending}/>
-  //     {!loggedIn ? <Redirect href="/sign-in" /> : <Redirect href="/sign-up" />}
-  //   </SafeAreaView>
-  // )
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* <SignIn /> */}
+      <LoadingSpinner visible={authState.pending}/>
+      {/* {!loggedIn ? <Redirect href="/sign-in" /> : <Redirect href="/sign-up" />} */}
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({

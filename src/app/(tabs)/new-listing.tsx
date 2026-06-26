@@ -1,11 +1,17 @@
 import FormInput from '@/components/ui/FormInput'
 import { useRouter } from 'expo-router'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import colors from '@/utils/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DatePicker from '@/components/ui/DatePicker';
+import OptionModal from '@/components/OptionModal';
+import categories from '@/utils/categories';
+import CategoryOption from '@/components/ui/CategoryOption';
+import { AntDesign } from '@expo/vector-icons';
+import AppButton from '@/components/ui/AppButton';
+import CustomKeyAvoidingView from '@/components/ui/CustomKeyAvoidingView';
 
 
 interface Props {
@@ -14,9 +20,11 @@ interface Props {
 
 const NewListing: FC<Props> = (props) => {
     const router = useRouter()
+    const [showCategoryModal, setShowCategoryModal] = useState(false)
+
   return (
-    <SafeAreaView>
-  <View style={styles.container}>
+    <CustomKeyAvoidingView>
+  <View style={styles.container}> 
     <Pressable style={styles.fileSelector}>
         <View style={styles.iconContainer}>
         <Ionicons name="images" size={24} color="black" />
@@ -26,9 +34,26 @@ const NewListing: FC<Props> = (props) => {
       <FormInput placeholder='product Name'/>
       <FormInput placeholder='Price'/>
       <DatePicker title="Purchasing Date: " value={new Date()} onChange={() => {}}/>
-      <FormInput placeholder='Description'/>
+       <Pressable style={styles.categorySelector} onPress={() => setShowCategoryModal(true)}>
+        <Text style={styles.categoryTitle}>Category</Text>
+       </Pressable>
+
+      <FormInput placeholder='Description' multiline numberOfLines={4}/>
+
+      <AppButton title='List product'/>
+      <OptionModal  
+      visible={showCategoryModal}
+      onRequestClose={setShowCategoryModal}
+      options={categories}
+      renderItem={(item) => {
+        return <CategoryOption {...item} />
+      }}
+      onPress={(item) => {
+        console.log(item)
+      }}
+      />
     </View>
-    </SafeAreaView>
+    </CustomKeyAvoidingView>
   )
 }
 
@@ -37,6 +62,7 @@ export default NewListing
 const styles = StyleSheet.create({
   container: {
    padding: 15,
+   flex: 1
   },
   fileSelector: {
     alignItems: "center",
@@ -56,5 +82,19 @@ const styles = StyleSheet.create({
   btnTitle: {
     color: colors.primary,
     marginTop: 5
+  },
+  categorySelector: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+     width: "100%",
+        marginBottom: 15,
+        padding: 8,
+        borderWidth: 1,
+        borderColor: colors.deActive,
+        borderRadius: 5
+  },
+  categoryTitle: {
+    color: colors.primary
   }
 });
