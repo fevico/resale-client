@@ -40,10 +40,12 @@ import { runAxiosAsync } from "@/api/axiosAsync";
 import client from "@/api/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useAuth from "@/hooks/useAuth";
+import useClient from "@/hooks/useClient";
 
 // Component 1: The Inner Content App Controller
 function AppNavigationManager() {
   const colorScheme = useColorScheme();
+  const {authClient} = useClient()
   const { loggedIn, authState } = useAuth(); // Safe to use here because Provider wraps it!
   const dispatch = useDispatch();
   const router = useRouter();
@@ -97,7 +99,11 @@ function AppNavigationManager() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(auth)" />
+        {/* FIXED: Explicitly map your entry and sub-group configurations */}
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)/sign-in" />
+        <Stack.Screen name="(auth)/sign-up" />
+        <Stack.Screen name="(auth)/forgot-password" />
         <Stack.Screen name="(tabs)" />
       </Stack>
       <FlashMessage position="top"/>

@@ -60,9 +60,9 @@ const SignIn: FC<Props> = (props) => {
         value={password}
         onChangeText={handleChange("password")} 
         />
-        <AppButton title='Sign in' onPress={handleSubmit}/>
+        <AppButton active title='Sign in' onPress={handleSubmit}/>
 
-        <FormDivider/>
+        <FormDivider/> 
 
         <FormNavigator 
         onLeftPress={() => router.push("/forgot-password")} 

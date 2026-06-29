@@ -37,7 +37,7 @@ const useAuth = () => {
                    await AsyncStorage.setItem("access-token", res.tokens.access)
                    await AsyncStorage.setItem("refresh-token", res.tokens.refresh)
                     dispatch(updateAuthState({
-                      profile: res.profile,
+                      profile: {...res.profile, accessToken: res.tokens.access},
                       pending: false
                     }))
                     router.replace("/home") 

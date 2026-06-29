@@ -1,6 +1,6 @@
 import FormInput from '@/components/ui/FormInput'
 import { useRouter } from 'expo-router'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import colors from '@/utils/colors';
@@ -9,10 +9,7 @@ import DatePicker from '@/components/ui/DatePicker';
 import OptionModal from '@/components/OptionModal';
 import categories from '@/utils/categories';
 import CategoryOption from '@/components/ui/CategoryOption';
-import { AntDesign } from '@expo/vector-icons';
 import AppButton from '@/components/ui/AppButton';
-import CustomKeyAvoidingView from '@/components/ui/CustomKeyAvoidingView';
-
 
 interface Props {
 
@@ -23,8 +20,8 @@ const NewListing: FC<Props> = (props) => {
     const [showCategoryModal, setShowCategoryModal] = useState(false)
 
   return (
-    <CustomKeyAvoidingView>
-  <View style={styles.container}> 
+    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.container}> 
     <Pressable style={styles.fileSelector}>
         <View style={styles.iconContainer}>
         <Ionicons name="images" size={24} color="black" />
@@ -53,7 +50,7 @@ const NewListing: FC<Props> = (props) => {
       }}
       />
     </View>
-    </CustomKeyAvoidingView>
+    </SafeAreaView>
   )
 }
 
@@ -63,6 +60,10 @@ const styles = StyleSheet.create({
   container: {
    padding: 15,
    flex: 1
+  },
+  safeArea: {
+    flex: 1,
+    padding: 10
   },
   fileSelector: {
     alignItems: "center",
