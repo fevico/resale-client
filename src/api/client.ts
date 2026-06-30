@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export const baseURL = "http://172.26.223.246:8000"
+export const baseURL = "http://10.110.85.246:8000"
 
 const client = axios.create({baseURL})
 

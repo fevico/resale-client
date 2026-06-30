@@ -21,9 +21,15 @@ const OptionModal = <T  extends unknown>({visible, onRequestClose, options, onPr
         <View style={styles.innerContainer}>
         <ScrollView>
         {options.map((item, index) => {
-            return <Pressable key={index} onPress={() => onPress(item)}>
-                {renderItem(item)}
+            return (
+            <Pressable key={index} onPress={() => {
+            onPress(item);
+            handleClose()
+            }}
+            >
+            {renderItem(item)}
             </Pressable>
+            )
         })}
         </ScrollView>
         </View>

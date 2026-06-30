@@ -59,7 +59,7 @@ function AppNavigationManager() {
         dispatch(updateAuthState({ pending: true, profile: null }));
         
         const res = await runAxiosAsync<{ profile: Profile }>(
-          client.get("/auth/profile", {
+          authClient.get("/auth/profile", {
             headers: { Authorization: "Bearer " + token }
           })
         );

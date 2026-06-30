@@ -35,7 +35,14 @@
           }
         }
       ],
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      [
+    "expo-image-picker",
+    {
+      "photoPermission": "Allow client-app to access your photo library to upload product images.",
+      "cameraPermission": "Allow client-app to access your camera to take product photos."
+    }
+    ]
     ],
     "experiments": {
       "typedRoutes": true,
