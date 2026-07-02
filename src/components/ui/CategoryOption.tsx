@@ -1,6 +1,6 @@
 import colors from '@/utils/colors'
 import { useRouter } from 'expo-router'
-import React, { FC, JSX } from 'react'
+import { FC, JSX } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 interface Props {

@@ -1,23 +1,23 @@
-import FormInput from '@/components/ui/FormInput'
-import { useRouter } from 'expo-router'
-import { FC, useState } from 'react'
-import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import Ionicons from '@expo/vector-icons/Ionicons';
-import colors from '@/utils/colors';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import DatePicker from '@/components/ui/DatePicker';
-import OptionModal from '@/components/OptionModal';
-import categories from '@/utils/categories';
-import CategoryOption from '@/components/ui/CategoryOption';
-import AppButton from '@/components/ui/AppButton';
-import * as ImagePicker from "expo-image-picker"
-import { showMessage } from 'react-native-flash-message';
-import HorizontalImageList from '@/components/HorizontalImagelist';
-import { newProductSchema, yupValidate } from '@/utils/validation';
-import mime from "mime"
-import useClient from '@/hooks/useClient';
 import { runAxiosAsync } from '@/api/axiosAsync';
+import HorizontalImageList from '@/components/HorizontalImagelist';
+import OptionModal from '@/components/OptionModal';
+import AppButton from '@/components/ui/AppButton';
+import CategoryOption from '@/components/ui/CategoryOption';
+import DatePicker from '@/components/ui/DatePicker';
+import FormInput from '@/components/ui/FormInput';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import useClient from '@/hooks/useClient';
+import categories from '@/utils/categories';
+import colors from '@/utils/colors';
+import { newProductSchema, yupValidate } from '@/utils/validation';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import * as ImagePicker from "expo-image-picker";
+import { useRouter } from 'expo-router';
+import mime from "mime";
+import { FC, useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
 

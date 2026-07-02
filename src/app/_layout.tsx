@@ -1,49 +1,20 @@
-// import "../global.css"
-// import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-// import { useColorScheme } from 'react-native';
-// import { Stack } from 'expo-router';
-// import FlashMessage from "react-native-flash-message"
-// import {Provider} from "react-redux"
-
-// import { AnimatedSplashOverlay } from '@/components/animated-icon';
-// import AppTabs from '@/components/app-tabs';
-// import store from "@/store";
-
-// export default function TabLayout() {
-//   const colorScheme = useColorScheme();
-//   return (
-//     <Provider store={store}>
-//     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-//       <Stack screenOptions={{ headerShown: false }}>
-//         <Stack.Screen name="(auth)" />
-//         <Stack.Screen name="(tabs)" />
-//       </Stack>
-//       <FlashMessage position="top"/>
-//     </ThemeProvider>
-//     </Provider>
-//   );
-// }
-
-
-
 import "../global.css"
 import { useEffect, useState } from 'react';
-import { useColorScheme } from 'react-native';
+import { Platform, useColorScheme } from 'react-native';
 import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
 import { Stack, useRouter, useSegments } from 'expo-router'; 
 import FlashMessage from "react-native-flash-message"
 import { Provider, useDispatch } from "react-redux"
-
 import store from "@/store";
 import { Profile, updateAuthState } from "@/store/auth";
 import { runAxiosAsync } from "@/api/axiosAsync";
-import client from "@/api/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useAuth from "@/hooks/useAuth";
-import useClient from "@/hooks/useClient";
+import useClient from "@/hooks/useClient"; 
 
-// Component 1: The Inner Content App Controller
+// Component 1: The Inner Content App Controller 
 function AppNavigationManager() {
+
   const colorScheme = useColorScheme();
   const {authClient} = useClient()
   const { loggedIn, authState } = useAuth(); // Safe to use here because Provider wraps it!
@@ -96,15 +67,26 @@ function AppNavigationManager() {
     }
   }, [loggedIn, isCheckingToken, segments]);
 
-  return (
+    // <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    //   <Stack screenOptions={{ headerShown: false }}>
+    //     {/* FIXED: Explicitly map your entry and sub-group configurations */}
+    //     <Stack.Screen name="index" />
+    //     <Stack.Screen name="(auth)/sign-in" />
+    //     <Stack.Screen name="(auth)/sign-up" />
+    //     <Stack.Screen name="(auth)/forgot-password" />
+    //     <Stack.Screen name="(tabs)" />
+    //     <Stack.Screen name="(views)" options={{ headerShown: true }} />
+    //   </Stack>
+    //   <FlashMessage position="top"/>
+    // </ThemeProvider>
+    return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}>
-        {/* FIXED: Explicitly map your entry and sub-group configurations */}
+        {/* Only declare the main entry points and top-level directory wrappers */}
         <Stack.Screen name="index" />
-        <Stack.Screen name="(auth)/sign-in" />
-        <Stack.Screen name="(auth)/sign-up" />
-        <Stack.Screen name="(auth)/forgot-password" />
-        <Stack.Screen name="(tabs)" />
+        {/* Custom overrides for your standalone pages when they slide up */}
+        <Stack.Screen name="chats" options={{ headerShown: true, title: "Messages" }} />
+        <Stack.Screen name="listings" options={{ headerShown: true, title: "Your Listings" }} />
       </Stack>
       <FlashMessage position="top"/>
     </ThemeProvider>
