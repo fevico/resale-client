@@ -6,7 +6,7 @@ interface Props {
 
 }
 
-const Chats: FC<Props> = (props) => {
+const ChatWindow: FC<Props> = (props) => {
   return (
   <View style={styles.container}>
       <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Your Matches Feed</Text>
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
   container: {}
 });
 
-export default Chats
+export default ChatWindow

@@ -15,7 +15,7 @@ interface Props {
 
 const Profile: FC<Props> = (props) => {
     const router = useRouter()
-    const {authState} = useAuth()
+    const {authState, signOut} = useAuth()
     const  {profile} = authState
 
     const onMessagePress = () => {
@@ -43,7 +43,7 @@ const Profile: FC<Props> = (props) => {
       {/* options for profile */}
       <ProfileOptionListItem style={styles.marginBottom} active={true} antIconName="message" title="Messages" onPress={onMessagePress} />
       <ProfileOptionListItem style={styles.marginBottom} antIconName="appstore" title="Your Listings" onPress={onListingPress} />
-      <ProfileOptionListItem antIconName="logout" title="Log Out" />
+      <ProfileOptionListItem antIconName="logout" title="Log Out" onPress={signOut} />
     </SafeAreaView>
     </ScrollView>
   )

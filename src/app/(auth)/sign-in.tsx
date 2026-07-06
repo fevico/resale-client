@@ -4,18 +4,13 @@ import FormDivider from '@/components/ui/FormDivider'
 import FormInput from '@/components/ui/FormInput'
 import FormNavigator from '@/components/ui/FormNavigator'
 import WelcomeHeader from '@/components/ui/WelcomeHeader'
-import colors from '@/utils/colors'
-import React, { FC, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { useRouter } from 'expo-router' 
-import { signInSchema, yupValidate } from '@/utils/validation'
-import { showMessage } from 'react-native-flash-message'
-import { runAxiosAsync } from '@/api/axiosAsync'
-import client from '@/api/client'
-import { useDispatch } from 'react-redux'
-import { updateAuthState } from '@/store/auth'
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import useAuth from '@/hooks/useAuth'
+import colors from '@/utils/colors'
+import { signInSchema, yupValidate } from '@/utils/validation'
+import { useRouter } from 'expo-router'
+import { FC, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { showMessage } from 'react-native-flash-message'
 
 interface Props {
 
@@ -34,7 +29,6 @@ const SignIn: FC<Props> = (props) => {
             
            if(values) signIn(values)
 
-          // router.replace("/home");
         }
 
      const handleChange = (name: string) => (text: string) => {

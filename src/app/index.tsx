@@ -1,86 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, ActivityIndicator, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Redirect } from 'expo-router';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAuthState, Profile, updateAuthState } from '@/store/auth';
-import client from '@/api/client';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { runAxiosAsync } from '@/api/axiosAsync';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import useAuth from '@/hooks/useAuth';
+import colors from '@/utils/colors';
 
-export default function HomeScreen() {
-
-  const {loggedIn, authState} = useAuth()
-  // console.log(authState) 
-
-  // const dispatch = useDispatch()
-  // console.log("auth state", authState.profile)
-  // const [isCheckingToken, setIsCheckingToken] = useState(true);
-
-  // const fetchAuthState = async () => {
-  //  const token = await AsyncStorage.getItem("access-token")
-  //  console.log("access", token)
-  //  if(token){
-  //   dispatch(updateAuthState({
-  //       pending: true,
-  //       profile: null
-  //     }))
-  //    const res = await runAxiosAsync<{profile: Profile}>(client.get("/auth/profile", {
-  //      headers: {
-  //        Authorization: "Bearer " + token, 
-  //      }
-  //    }))
-
-  //    console.log("profile", res)
-
-  //    if(res){
-  //     dispatch(updateAuthState({
-  //       pending: false,
-  //       profile: res.profile
-  //     }))
-  //    }else {
-  //     dispatch(updateAuthState({
-  //       pending: false,
-  //       profile: null
-  //     }))
-  //    }
-  //    setIsCheckingToken(false);
-  //  }
-  // }
-
-  // useEffect(() => {
-  //   fetchAuthState()
-  // }, [])
-
-  // console.log(loggedIn)
-
-  // if (isCheckingToken || authState.pending) {
-  //   return (
-  //     <SafeAreaView style={styles.container}>
-  //       <LoadingSpinner visible={true} />
-  //     </SafeAreaView>
-  //   );
-  // }
-
-  // if (!loggedIn) {
-  //   return <Redirect href="/sign-in" />;
-  // }
-
-  // return <Redirect href="/home" />;
-
+export default function EntryIndexScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      {/* <SignIn /> */}
-      <LoadingSpinner visible={authState.pending}/>
-      {/* {!loggedIn ? <Redirect href="/sign-in" /> : <Redirect href="/sign-up" />} */}
+      <View style={styles.logoContainer}>
+        {/* You can swap this text out later for a clean image logo asset */}
+        <Text style={styles.logoText}>RESALE</Text>
+        <ActivityIndicator size="large" color={colors.primary} style={styles.spinner} />
+      </View>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoContainer: {
+    alignItems: 'center',
+  },
+  logoText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: colors.primary,
+    letterSpacing: 2,
+  },
+  spinner: {
+    marginTop: 20,
   },
 });

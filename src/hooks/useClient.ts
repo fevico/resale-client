@@ -1,11 +1,10 @@
-import { baseURL } from "@/api/client"
-import axios from "axios"
-import useAuth from "./useAuth"
-import createAuthRefreshInterceptor from "axios-auth-refresh"
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import { runAxiosAsync } from "@/api/axiosAsync"
-import { useDispatch } from "react-redux"
-import { updateAuthState } from "@/store/auth"
+import { baseURL } from "@/api/client"
+import { getAuthState, updateAuthState } from "@/store/auth"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import axios from "axios"
+import createAuthRefreshInterceptor from "axios-auth-refresh"
+import { useDispatch, useSelector } from "react-redux"
 
 const authClient = axios.create({baseURL})
 
@@ -16,7 +15,8 @@ type Response = {
  }
 }
 const useClient = () => {
-   const {authState}  = useAuth()
+//    const {authState}  = useAuth()
+      const authState = useSelector(getAuthState); 
    const dispatch = useDispatch()
    const token = authState.profile?.accessToken
    authClient.interceptors.request.use((config) => {
@@ -36,6 +36,10 @@ const useClient = () => {
     const res = await runAxiosAsync<Response>(axios(options))
     if(res?.tokens){
         FailedRequest.response.config.headers.Authorization = "Bearer " + res.tokens.access
+        // to handle signout if the token is expired
+        if(FailedRequest.response.config.url === `/auth/sign-out`){
+            FailedRequest.response.config.data = {refreshToken: res.tokens.refresh}
+        }
         await AsyncStorage.setItem("access-token", res.tokens.access)
         await AsyncStorage.setItem("refresh-token", res.tokens.refresh)
         dispatch(updateAuthState({profile: {...authState.profile!, accessToken: res.tokens.access}, pending: false}))
