@@ -1,39 +1,50 @@
-import { useRouter } from 'expo-router'
-import React, { FC } from 'react'
-import { StyleProp, ViewStyle } from 'react-native'
-import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { useRouter } from "expo-router";
+import { FC } from "react";
+import {
+  FlatList,
+  Image,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  ViewStyle,
+} from "react-native";
 
 interface Props {
- images: string[]
- onPress?(item: string): void
- onLongPress?(item: string): void
- style?: StyleProp<ViewStyle>
+  images: string[];
+  onPress?(item: string): void;
+  onLongPress?(item: string): void;
+  style?: StyleProp<ViewStyle>;
 }
 
-const HorizontalImageList: FC<Props> = ({images, style, onPress, onLongPress}) => {
-    const router = useRouter()
+const HorizontalImageList: FC<Props> = ({
+  images,
+  style,
+  onPress,
+  onLongPress,
+}) => {
+  const router = useRouter();
   return (
-    <FlatList 
-        data={images} 
-        renderItem={({item}) => {
-          return ( 
-            <Pressable 
-            onPress={() => onPress &&  onPress(item)}
-            onLongPress={() => onLongPress &&  onLongPress(item)} 
+    <FlatList
+      data={images}
+      renderItem={({ item }) => {
+        return (
+          <Pressable
+            onPress={() => onPress && onPress(item)}
+            onLongPress={() => onLongPress && onLongPress(item)}
             style={styles.listItem}
-            >
-                <Image style={styles.image} source={{uri: item}}/>
-            </Pressable>
-        )
-        }}
-        keyExtractor={(item) => item}
-        horizontal
-        contentContainerStyle={style}
-        />
-  )
-}
+          >
+            <Image style={styles.image} source={{ uri: item }} />
+          </Pressable>
+        );
+      }}
+      keyExtractor={(item) => item}
+      horizontal
+      contentContainerStyle={style}
+    />
+  );
+};
 
-export default HorizontalImageList
+export default HorizontalImageList;
 
 const styles = StyleSheet.create({
   listItem: {
@@ -41,9 +52,9 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 7,
     marginLeft: 5,
-    overflow: "hidden"
+    overflow: "hidden",
   },
   image: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });

@@ -1,18 +1,18 @@
+import { runAxiosAsync } from '@/api/axiosAsync'
+import client from '@/api/client'
 import AppButton from '@/components/ui/AppButton'
 import CustomKeyAvoidingView from '@/components/ui/CustomKeyAvoidingView'
 import FormDivider from '@/components/ui/FormDivider'
 import FormInput from '@/components/ui/FormInput'
 import FormNavigator from '@/components/ui/FormNavigator'
 import WelcomeHeader from '@/components/ui/WelcomeHeader'
+import useAuth from '@/hooks/useAuth'
 import colors from '@/utils/colors'
+import { newUserSchema, yupValidate } from '@/utils/validation'
 import { useRouter } from 'expo-router'
 import { FC, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { newUserSchema, yupValidate } from '@/utils/validation'
-import { runAxiosAsync } from '@/api/axiosAsync'
 import { showMessage } from 'react-native-flash-message'
-import client from '@/api/client'
-import useAuth from '@/hooks/useAuth'
 
 interface Props {
 

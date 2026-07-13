@@ -1,16 +1,11 @@
-import { useRouter } from 'expo-router'
 import React, { FC } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-interface Props {
+interface Props {}
 
-}
-
-const Chats: FC<Props> = (props) => {
+const chats: FC<Props> = (props) => {
   return (
-  <View style={styles.container}>
-      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Your Matches Feed</Text>
-    </View>
+    <View style={styles.container}></View>
   )
 }
 
@@ -18,4 +13,4 @@ const styles = StyleSheet.create({
   container: {}
 });
 
-export default Chats
+export default chats

@@ -9,7 +9,7 @@ import WelcomeHeader from '@/components/ui/WelcomeHeader'
 import colors from '@/utils/colors'
 import { emailRegex } from '@/utils/validation'
 import { useRouter } from 'expo-router'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { showMessage } from 'react-native-flash-message'
 

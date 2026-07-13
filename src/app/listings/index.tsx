@@ -37,7 +37,7 @@ const Listings: FC<Props> = (props) => {
   return (
   <View style={styles.container}>
       <FlatList refreshing={fetching} onRefresh={fetchListings} data={listings} contentContainerStyle={styles.flatList} keyExtractor={(item) => item.id} renderItem={({ item }) => (
-        <Pressable onPress={() => router.push(`/${item.id}`)} style={styles.listingItem}>
+        <Pressable onPress={() => router.push(`/listings/${item.id}`)} style={styles.listingItem}>
           <ProductImage uri={item.thumbnail} />
           <Text style={styles.productName}>{item.name}</Text>
         </Pressable>
