@@ -1,4 +1,5 @@
 import { runAxiosAsync } from "@/api/axiosAsync";
+import CategoryOptions from "@/components/CategoryOptions";
 import HorizontalImageList from "@/components/HorizontalImagelist";
 import OptionModal from "@/components/OptionModal";
 import OptionsSelector from "@/components/OptionsSelector";
@@ -10,6 +11,7 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import useClient from "@/hooks/useClient";
 import categories from "@/utils/categories";
 import colors from "@/utils/colors";
+import { selectImages } from "@/utils/helper";
 import { newProductSchema, yupValidate } from "@/utils/validation";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as ImagePicker from "expo-image-picker";
@@ -89,19 +91,20 @@ const NewListing: FC<Props> = (props) => {
   };
 
   const handleOnImageSelection = async () => {
-    try {
-      const { assets } = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: false,
-        mediaTypes: ["images"],
-        quality: 0.3,
-        allowsMultipleSelection: true,
-      });
-      if (!assets) return;
-      const imageUris = assets.map(({ uri }) => uri);
-      setImages((prevImages) => [...prevImages, ...imageUris]);
-    } catch (error) {
-      showMessage({ message: (error as any).message, type: "danger" });
-    }
+   const newImages = await selectImages()
+    setImages((prevImages) => [...prevImages, ...newImages]);
+    // try {
+    //   const { assets } = await ImagePicker.launchImageLibraryAsync({
+    //     allowsEditing: false,
+    //     mediaTypes: ["images"],
+    //     quality: 0.3,
+    //     allowsMultipleSelection: true,
+    //   });
+    //   if (!assets) return;
+    //   const imageUris = assets.map(({ uri }) => uri);
+    // } catch (error) {
+    //   showMessage({ message: (error as any).message, type: "danger" });
+    // }
   };
 
   return (
@@ -146,7 +149,8 @@ const NewListing: FC<Props> = (props) => {
           }
         />
 
-          <OptionsSelector title={category || "Category"} onPress={()=> setShowCategoryModal(true)}/>
+          <CategoryOptions onSelect={handleChange("Category")} title={category || "Category"} />
+          {/* <OptionsSelector title={category || "Category"} onPress={()=> setShowCategoryModal(true)}/> */}
 
         <FormInput
           value={description}
@@ -158,7 +162,7 @@ const NewListing: FC<Props> = (props) => {
 
         <AppButton title="List product" onPress={handleSubmit} />
 
-        <OptionModal
+        {/* <OptionModal
           visible={showCategoryModal}
           onRequestClose={setShowCategoryModal}
           options={categories}
@@ -168,7 +172,7 @@ const NewListing: FC<Props> = (props) => {
           onPress={(item) => {
             setProductInfo({ ...productInfo, category: item.name });
           }}
-        />
+        /> */}
 
         {/* image options */}
         <OptionModal
