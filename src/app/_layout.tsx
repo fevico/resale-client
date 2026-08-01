@@ -84,6 +84,7 @@ function AppNavigationManager() {
         <Stack.Screen name="listings" options={{ headerShown: true, title: "Your Listings" }} />
         <Stack.Screen name="listings/[id]/index" options={{ headerShown: true, title: "Product Detail" }} />
         <Stack.Screen name="listings/[id]/edit" options={{ headerShown: true, title: "Edit Product" }} />
+        <Stack.Screen name="by-category/[category]" options={{ headerShown: true, title: "Product category" }} />
         <Stack.Screen name="chat-window" options={{ headerShown: true, title: "Chat" }} />
       </Stack>
       <FlashMessage position="top"/>

@@ -2,28 +2,29 @@ import colors from '@/utils/colors'
 import { FontAwesome } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { FC } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, Pressable, StyleSheet, View } from 'react-native'
 
 interface Props {
     uri?: string
     size?: number
+    onPress?(): void
 }
 
 const iconContainerFactor = 0.7
 const iconSizeFactor =  0.8
 
-const AvatarView: FC<Props> = ({size = 50, uri}) => {
+const AvatarView: FC<Props> = ({size = 50, uri, onPress}) => {
     const router = useRouter()
     const iconContainerSize = size * iconContainerFactor
     const iconSize = size * iconSizeFactor
 
   return (
-  <View style={[{width: size, height: size, borderRadius: size / 2}, styles.container, !uri && styles.ProfileIcon]}>
+  <Pressable onPress={onPress} style={[{width: size, height: size, borderRadius: size / 2}, styles.container, !uri && styles.ProfileIcon]}>
      {uri ? <Image source={{uri}} style={styles.image}/> 
      : <View style={[{width: iconContainerSize, height: iconContainerSize, borderRadius: iconContainerSize / 2}, styles.iconContainer]}>
             <FontAwesome name='user' size={iconSize} color={colors.white}/>
         </View>} 
-    </View>
+    </Pressable>
   )
 }
 
