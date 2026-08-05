@@ -8,11 +8,18 @@ import { useDispatch, useSelector } from "react-redux"
 
 const authClient = axios.create({baseURL})
 
-type Response = {
+export type TokenResponse = {
  tokens: {
     refresh: string;
     access: string
- }
+ },
+     profile: {
+      id: string,
+      email: string,
+      name: string,
+      verified: boolean,
+      avatar?: string | undefined
+    },
 }
 const useClient = () => {
 //    const {authState}  = useAuth()
@@ -33,7 +40,7 @@ const useClient = () => {
     const refreshToken = await AsyncStorage.getItem("refresh-token")
     // send request with that token to get  new access
     const options = {method: "POST", data: {refreshToken}, url: `${baseURL}/auth/refresh-token`}
-    const res = await runAxiosAsync<Response>(axios(options))
+    const res = await runAxiosAsync<TokenResponse>(axios(options))
     if(res?.tokens){
         FailedRequest.response.config.headers.Authorization = "Bearer " + res.tokens.access
         // to handle signout if the token is expired
@@ -42,8 +49,8 @@ const useClient = () => {
         }
         await AsyncStorage.setItem("access-token", res.tokens.access)
         await AsyncStorage.setItem("refresh-token", res.tokens.refresh)
-        dispatch(updateAuthState({profile: {...authState.profile!, accessToken: res.tokens.access}, pending: false}))
-        return Promise.resolve()  
+        dispatch(updateAuthState({profile: {...res.profile, accessToken: res.tokens.access}, pending: false}))
+        return Promise.resolve()
     }
    }
     

@@ -1,6 +1,7 @@
 import { runAxiosAsync } from "@/api/axiosAsync";
 import OptionModal from "@/components/OptionModal";
 import ProductDetails from "@/components/ProductDetail";
+import ChatIcon from "@/components/ui/ChatIcon";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import useAuth from "@/hooks/useAuth";
 import useClient from "@/hooks/useClient";
@@ -35,6 +36,7 @@ const ListingDetails: FC<Props> = (props) => {
   const { authClient } = useClient();
   const { authState } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
+  const [fetchChatId, setFetchChatId] = useState(false);
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -48,6 +50,31 @@ const ListingDetails: FC<Props> = (props) => {
       );
       if (res) {
         setProduct(res.product);
+      }
+    } catch (error) {
+      console.log("Error fetching product details:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onChatBtnPress = async () => {
+    try {
+      if(!product) return;
+      setFetchChatId(true);
+      const res = await runAxiosAsync<{ conversationId: string }>(
+        authClient.get(`conversation/with/` + product?.seller.id),
+      );
+      setFetchChatId(false);
+
+      if (res) {
+        router.push({
+          pathname: "/chat-window",
+          params: {
+            conversationId: res.conversationId,
+            peerProfile: JSON.stringify(product.seller),
+          },
+        });
       }
     } catch (error) {
       console.log("Error fetching product details:", error);
@@ -77,6 +104,10 @@ const ListingDetails: FC<Props> = (props) => {
       router.back();
     }
   };
+  
+  const fetchingChatId = () => {
+
+  }
 
   const onDeletePress = () => {
     Alert.alert(
@@ -121,16 +152,11 @@ const ListingDetails: FC<Props> = (props) => {
         ) : (
           <Text>Product not found</Text>
         )}
-        <Pressable
-          onPress={() => router.push("/chat-window")}
-          style={styles.messageBtn}
-        >
-          <AntDesign name="message" size={20} color={colors.white} />
-        </Pressable>
-
+        {!isAdmin && <ChatIcon onPress={onChatBtnPress} busy={fetchChatId}/>
+}
         <OptionModal
           options={menuOptions}
-          renderItem={({ icon, name }) => (
+          renderItem={({ icon, name }) => (  
             <View style={styles.option}>
               {icon}
               <Text style={styles.optionTitle}>{name}</Text>
@@ -143,7 +169,10 @@ const ListingDetails: FC<Props> = (props) => {
               onDeletePress();
             }
             if (option.name === "Edit") {
-              router.push({pathname:'/listings/[id]/edit', params: {id, product: JSON.stringify(product) }});
+              router.push({
+                pathname: "/listings/[id]/edit",
+                params: { id, product: JSON.stringify(product) },
+              });
             }
           }}
         />
@@ -164,17 +193,6 @@ const styles = StyleSheet.create({
   optionTitle: {
     paddingLeft: 5,
     color: colors.primary,
-  },
-  messageBtn: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: colors.active,
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    bottom: 60,
-    right: 50,
   },
 });
 
